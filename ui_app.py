@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import streamlit as st
 import requests
 import os
@@ -11,8 +11,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# API Key
-HF_API_KEY = "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"
+# API Key - FIXED WITH NEW KEY
+HF_API_KEY = "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"
 
 if not HF_API_KEY or HF_API_KEY == "hf_your_actual_api_key_here":
     st.error("⚠️ Please add your Hugging Face API key to the code!")
@@ -55,7 +55,6 @@ def summarize_text(text, length='medium'):
 
 def paraphrase_text(text):
     try:
-        # METHOD 1: Using distilbart model (GUARANTEED WORKING)
         url = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
         headers = {"Authorization": f"Bearer {HF_API_KEY}"}
         
@@ -76,47 +75,10 @@ def paraphrase_text(text):
             if isinstance(result, list) and len(result) > 0:
                 return result[0].get('summary_text', result[0].get('generated_text', 'Paraphrase generated'))
             return str(result)
-        elif response.status_code == 503:
-            # METHOD 2: If model is loading, use text generation approach
-            return paraphrase_text_fallback(text)
         else:
             return f"API Error: {response.status_code} - {response.text}"
     except Exception as e:
         return f"Error: {str(e)}"
-
-def paraphrase_text_fallback(text):
-    try:
-        # METHOD 2: Using GPT-2 (usually available)
-        url = "https://api-inference.huggingface.co/models/gpt2"
-        headers = {"Authorization": f"Bearer {HF_API_KEY}"}
-        
-        prompt = f"Rewrite this text in different words: '{text}'"
-        
-        payload = {
-            "inputs": prompt,
-            "parameters": {
-                "max_length": 200,
-                "temperature": 0.9,
-                "do_sample": True,
-                "top_p": 0.9
-            }
-        }
-        
-        response = requests.post(url, headers=headers, json=payload, timeout=60)
-        
-        if response.status_code == 200:
-            result = response.json()
-            if isinstance(result, list) and len(result) > 0:
-                generated = result[0].get('generated_text', '')
-                # Remove the prompt from response
-                if prompt in generated:
-                    return generated.replace(prompt, "").strip()
-                return generated
-            return "Paraphrase could not be generated"
-        else:
-            return f"Fallback also failed: {response.status_code}"
-    except Exception as e:
-        return f"Fallback error: {str(e)}"
 
 # MAIN UI
 st.markdown("""
@@ -132,6 +94,13 @@ st.markdown("""
         color: #666;
         text-align: center;
         margin-bottom: 2rem;
+    }
+    .success-box {
+        background-color: #d4edda;
+        border: 2px solid #c3e6cb;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 10px 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -174,7 +143,7 @@ with col1:
     input_text = st.text_area(
         "Paste your text below:",
         height=300,
-        placeholder="Text summarization is a key application of Natural Language Processing (NLP)...",
+        placeholder="Enter your text here...",
         key="input_text"
     )
     
@@ -193,9 +162,18 @@ with col2:
             if result.startswith("Error"):
                 st.error(f"❌ {result}")
             else:
-                st.success("✅ Summary Generated!")
-                st.text_area("Summary", result, height=300, key="summary_output")
-                st.download_button("⬇️ Download Summary", result, file_name="summary.txt")
+                st.markdown('<div class="success-box">', unsafe_allow_html=True)
+                st.success("✅ **Summary Generated Successfully!**")
+                st.markdown('</div>', unsafe_allow_html=True)
+                st.text_area("Summary", result, height=250, key="summary_output")
+                
+                # Download button for summary
+                st.download_button(
+                    label="📥 Download Summary",
+                    data=result,
+                    file_name="ai_summary.txt",
+                    mime="text/plain"
+                )
     
     elif paraphrase_btn and input_text.strip():
         with st.spinner("🔄 Paraphrasing Text..."):
@@ -203,24 +181,22 @@ with col2:
             
             if result.startswith("Error") or result.startswith("API Error"):
                 st.error(f"❌ {result}")
-                st.info("""
-                💡 **Troubleshooting Tips:**
-                - Some models take time to load (up to 30 seconds)
-                - Try the paraphrase button again after waiting
-                - The summarization feature is working perfectly!
-                """)
             else:
-                st.success("✅ Text Paraphrased!")
-                st.text_area("Paraphrased Text", result, height=300, key="paraphrase_output")
-                st.download_button("⬇️ Download Paraphrase", result, file_name="paraphrase.txt")
+                st.markdown('<div class="success-box">', unsafe_allow_html=True)
+                st.success("✅ **Text Paraphrased Successfully!**")
+                st.markdown('</div>', unsafe_allow_html=True)
+                st.text_area("Paraphrased Text", result, height=250, key="paraphrase_output")
+                
+                # Download button for paraphrase
+                st.download_button(
+                    label="📥 Download Paraphrase",
+                    data=result,
+                    file_name="ai_paraphrase.txt", 
+                    mime="text/plain"
+                )
     
     else:
         st.info("👈 Enter text and click a button to get started!")
-        
-        # Show status
-        st.markdown("### 🔧 Feature Status")
-        st.success("✅ **Summarization:** Working Perfectly")
-        st.warning("🔄 **Paraphrase:** May require retry (models loading)")
 
 st.markdown("---")
 st.caption("Built with Streamlit • Powered by Hugging Face API")
