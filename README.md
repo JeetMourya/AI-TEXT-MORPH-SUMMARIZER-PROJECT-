@@ -163,7 +163,7 @@ For support, email or create an issue in the repository.
 
 text
 
-ये README.md आपके project को professionally present करेगा! इसे add करने के लिए:
+this README.md represent  our  project  professionally present ! to add this 
 
 ```bash
 git add README.md
