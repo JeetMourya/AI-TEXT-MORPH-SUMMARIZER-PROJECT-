@@ -30,7 +30,7 @@ This project provides a comprehensive solution for text processing with three ma
 - **🔐 Environment Variables** - Secure credential management
 
 ---
-
+```
 ## 📁 Project Structure
 AI-TEXT-MORPH-PROJECT/
 ├── mvp/
@@ -46,19 +46,20 @@ AI-TEXT-MORPH-PROJECT/
 ├── config.yaml # Configuration
 ├── .env.example # Environment template
 └── README.md # This file
+```
 
-text
 
 ---
 
 ## ⚡ Quick Start
-
 ### Prerequisites
+```
 - Python 3.8+
 - Hugging Face API Key
 - Groq API Key (optional, for paraphrasing)
-
-### Installation
+```
+## Installation
+```
 
 1. **Clone the repository**
 ```bash
@@ -107,7 +108,10 @@ from mvp.mvp_pipeline import SummarizationPipeline
 pipeline = SummarizationPipeline(hf_api_key="your_key")
 abstractive = pipeline.summarize(text, method="abstractive")
 paraphrased = pipeline.paraphrase("Sample text", 2)
-🔧 Configuration
+
+```
+##🔧 Configuration
+```
 Update config.yaml for customization:
 
 yaml
@@ -127,8 +131,8 @@ paraphrasing:
 ✅ Modular Architecture - Easy to extend
 ✅ Error Handling - Robust API communication
 ✅ Security - Environment-based credential management
-
-🚀 Performance
+```
+## 🚀 Performance
 Fast Inference via Groq's accelerated computing
 
 High Quality using state-of-the-art models (BART, LLaMA 3.1)
@@ -136,8 +140,10 @@ High Quality using state-of-the-art models (BART, LLaMA 3.1)
 Scalable cloud-based API architecture
 
 Flexible configurable output lengths
+```
 
-👨‍💻 Developer
+## 👨‍💻 Developer
+```
 Developed by: Jeet Mourya
 💡 AI Enthusiast & Full-Stack Developer
 🔗 GitHub Profile
@@ -152,8 +158,10 @@ Suggesting new features
 Submitting pull requests
 
 Improving documentation
+```
 
-📄 License
+## 📄 License
+```
 This project is open source and available under the MIT License.
 
 🤝 Support
@@ -161,47 +169,4 @@ For support, email or create an issue in the repository.
 
 ⭐ If you find this project useful, please give it a star on GitHub!
 
-text
-
-this README.md represent  our  project  professionally present ! to add this 
-
-```bash
-git add README.md
-git commit -m "Add professional README with project details and developer information"
-git push origin main# AI Text Summarizer & Paraphraser
-
-A powerful web application for text summarization and paraphrasing using Hugging Face Inference API.
-
-## Features
-
-- **Text Summarization**: Both extractive and abstractive methods
-- **Text Paraphrasing**: Rewrite text while preserving meaning
-- **Multiple Length Options**: Short, medium, and long summaries
-- **Download Results**: Save summaries and paraphrased text as files
-- **No Local Models**: Uses Hugging Face Inference API
-
-## Installation
-
-1. Clone the repository
-2. Create virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate# AI Text Summarizer & Paraphraser
-
-A powerful web application for text summarization and paraphrasing using Hugging Face Inference API.
-
-## Features
-
-- **Text Summarization**: Both extractive and abstractive methods
-- **Text Paraphrasing**: Rewrite text while preserving meaning
-- **Multiple Length Options**: Short, medium, and long summaries
-- **Download Results**: Save summaries and paraphrased text as files
-- **No Local Models**: Uses Hugging Face Inference API
-
-## Installation
-
-1. Clone the repository
-2. Create virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
